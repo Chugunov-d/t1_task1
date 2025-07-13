@@ -10,6 +10,9 @@ export type Status = 'To Do' | 'In Progress' | 'Done';
 export type Priority = 'Low' | 'Medium' | 'High';
 export type Category = 'Bug' | 'Feature' | 'Documentation' | 'Refactor' | 'Test';
 
+export const statusOptions: Status[] = ['To Do', 'In Progress', 'Done'];
+export const priorityOptions: Priority[] = ['Low', 'Medium', 'High'];
+export const categoryOptions: Category[] = ['Bug', 'Feature', 'Documentation', 'Refactor', 'Test'];
 
 export const tasks: Task[] = [
     {

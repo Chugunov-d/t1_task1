@@ -1,4 +1,4 @@
-import type {Task} from '../utils/task.ts';
+import {categoryOptions, priorityOptions, statusOptions, type Task} from '../utils/task.ts';
 import TaskItem from "./TaskItem.tsx";
 import {Container, FormControl, Grid, InputLabel, MenuItem, Select, Stack, Typography} from "@mui/material";
 import {useState} from "react";
@@ -22,6 +22,11 @@ const TaskList = ({tasks}:TaskProps) => {
     };
 
     const filteredTasks = tasks.filter(handleFilter)
+
+    const statusesOptions = ['All', ...statusOptions];
+    const prioritiesOptions = ['All', ...priorityOptions];
+    const categoriesOptions = ['All', ...categoryOptions];
+
     return (
         <Container sx={{ mt: 4 }}>
             <Typography variant="h4" textAlign={"center"} marginBottom={5} gutterBottom>Task Manager</Typography>
@@ -33,10 +38,14 @@ const TaskList = ({tasks}:TaskProps) => {
                         onChange={(e) => setStatusFilter(e.target.value)}
                         label="Status"
                     >
-                        <MenuItem value="">All</MenuItem>
-                        <MenuItem value="To Do">To Do</MenuItem>
-                        <MenuItem value="In Progress">In Progress</MenuItem>
-                        <MenuItem value="Done">Done</MenuItem>
+                        {statusesOptions.map((option) => (
+                            <MenuItem
+                                key={option}
+                                value={option === 'All' ? '' : option}
+                            >
+                                {option}
+                            </MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
 
@@ -47,12 +56,14 @@ const TaskList = ({tasks}:TaskProps) => {
                         onChange={(e) => setCategoryFilter(e.target.value)}
                         label="Category"
                     >
-                        <MenuItem value="">All</MenuItem>
-                        <MenuItem value="Bug">Bug</MenuItem>
-                        <MenuItem value="Feature">Feature</MenuItem>
-                        <MenuItem value="Documentation">Documentation</MenuItem>
-                        <MenuItem value="Refactor">Refactor</MenuItem>
-                        <MenuItem value="Test">Test</MenuItem>
+                        {categoriesOptions.map((option) => (
+                            <MenuItem
+                                key={option}
+                                value={option === 'All' ? '' : option}
+                            >
+                                {option}
+                            </MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
 
@@ -63,10 +74,14 @@ const TaskList = ({tasks}:TaskProps) => {
                         onChange={(e) => setPriorityFilter(e.target.value)}
                         label="Priority"
                     >
-                        <MenuItem value="">All</MenuItem>
-                        <MenuItem value="Low">Low</MenuItem>
-                        <MenuItem value="Medium">Medium</MenuItem>
-                        <MenuItem value="High">High</MenuItem>
+                        {prioritiesOptions.map((option) => (
+                            <MenuItem
+                                key={option}
+                                value={option === 'All' ? '' : option}
+                            >
+                                {option}
+                            </MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
             </Stack>

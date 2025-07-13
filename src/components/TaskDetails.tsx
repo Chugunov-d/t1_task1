@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {TextField, Select, Button, Typography, MenuItem, Stack, Container} from '@mui/material';
-import type {Task} from '../utils/task';
+import {categoryOptions, priorityOptions, statusOptions, type Task} from '../utils/task';
 
 interface TaskDetailsProps {
     tasks: Task[];
@@ -9,7 +9,6 @@ interface TaskDetailsProps {
 }
 
 const TaskDetails = ({tasks, onSave}:TaskDetailsProps) => {
-    console.log(tasks);
     const { id } = useParams();
     const navigate = useNavigate();
     const originalTask = tasks.find(t => t.id === Number(id));
@@ -37,15 +36,15 @@ const TaskDetails = ({tasks, onSave}:TaskDetailsProps) => {
                 <TextField label="Описание" value={formData.description || ''} onChange={handleChange('description')} fullWidth multiline rows={3} />
 
                 <Select value={formData.category} onChange={handleChange('category')} fullWidth>
-                    {['Bug', 'Feature', 'Documentation', 'Refactor', 'Test'].map(c => <MenuItem key={c} value={c}>{c}</MenuItem>)}
+                    {categoryOptions.map(c => <MenuItem key={c} value={c}>{c}</MenuItem>)}
                 </Select>
 
                 <Select value={formData.status} onChange={handleChange('status')} fullWidth>
-                    {['To Do', 'In Progress', 'Done'].map(s => <MenuItem key={s} value={s}>{s}</MenuItem>)}
+                    {statusOptions.map(s => <MenuItem key={s} value={s}>{s}</MenuItem>)}
                 </Select>
 
                 <Select value={formData.priority} onChange={handleChange('priority')} fullWidth>
-                    {['Low', 'Medium', 'High'].map(p => <MenuItem key={p} value={p}>{p}</MenuItem>)}
+                    {priorityOptions.map(p => <MenuItem key={p} value={p}>{p}</MenuItem>)}
                 </Select>
 
                 <Stack direction="row" spacing={2}>
