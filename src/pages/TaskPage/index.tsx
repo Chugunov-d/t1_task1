@@ -1,11 +1,22 @@
 import { TaskList } from '../../widgets/TaskList';
-import {Container, Typography, Box, Button, Stack, FormControl, Select, MenuItem, InputLabel} from '@mui/material';
+import {
+    Container,
+    Typography,
+    Box,
+    Button,
+    Stack,
+    FormControl,
+    Select,
+    MenuItem,
+    InputLabel,
+    CircularProgress, Alert
+} from '@mui/material';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
-import {useState} from "react";
-import {categoryOptions, type ITask, priorityOptions, statusOptions} from "../../features/cardSlice.ts";
+import {useEffect, useState} from "react";
+import {categoryOptions, fetchTasks, type ITask, priorityOptions, statusOptions} from "../../features/cardSlice.ts";
 import {useSelector} from "react-redux";
-import type {RootState} from "../../app/store.ts";
+import {type RootState, useAppDispatch} from "../../app/store.ts";
 
 const TasksPage = () => {
     const tasks = useSelector((state: RootState) => state.tasks.tasks);
@@ -26,6 +37,24 @@ const TasksPage = () => {
     const statusesOptions = ['All', ...statusOptions];
     const prioritiesOptions = ['All', ...priorityOptions];
     const categoriesOptions = ['All', ...categoryOptions];
+
+    const dispatch = useAppDispatch();
+    const { status, error } = useSelector((state: RootState) => state.tasks);
+
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchTasks());
+        }
+    }, [status, dispatch]);
+
+    let content;
+    if (status === 'loading') {
+        content = <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}><CircularProgress /></Box>;
+    } else if (status === 'succeeded') {
+        content = <TaskList tasks={filteredTasks}/>;
+    } else if (status === 'failed') {
+        content = <Alert severity="error">{error}</Alert>;
+    }
 
     return (
         <Container maxWidth="lg">
@@ -93,7 +122,7 @@ const TasksPage = () => {
                         </Select>
                     </FormControl>
                 </Stack>
-                <TaskList tasks={filteredTasks} />
+                {content}
             </Box>
         </Container>
     );

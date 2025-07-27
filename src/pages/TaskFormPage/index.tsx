@@ -6,7 +6,7 @@ import { useAppDispatch } from '../../app/store';
 import type {RootState} from '../../app/store';
 import {
     type ITask,
-    createTask,
+    addTask,
     updateTask,
     categoryOptions, statusOptions, priorityOptions
 } from '../../features/cardSlice';
@@ -46,7 +46,7 @@ const TaskFormPage = () => {
         if (isEditing && id) {
             dispatch(updateTask({ ...formState, id, createdAt: taskToEdit!.createdAt }));
         } else {
-            dispatch(createTask(formState));
+            dispatch(addTask(formState));
         }
         navigate('/');
     };
